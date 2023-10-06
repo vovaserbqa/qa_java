@@ -1,43 +1,48 @@
 import com.example.Feline;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TestFeline {
-    Feline feline = new Feline();
 
-    @Test
-    public void testMeat() throws Exception {
-        Feline feline = new Feline();
-        var actual = feline.eatMeat();
-        List<String> expectedMeat = new ArrayList<>();
-        expectedMeat.add("Животные");
-        expectedMeat.add("Птицы");
-        expectedMeat.add("Рыба");
+    @Mock
+    Feline feline;
 
-        assertEquals(actual, expectedMeat);
+    @Before
+    public void setUp() throws Exception {
+        feline = new Feline();
     }
 
     @Test
-    public void testFamily() throws Exception {
-        String expectedFamily = "Кошачьи";
-        assertEquals(expectedFamily, feline.getFamily());
+    public void testFelineEatMeat() throws Exception {
+        List<String> food = feline.eatMeat();
+
+        assertNotNull(food);
+        assertTrue(food.contains("Животные"));
+        assertTrue(food.contains("Птицы"));
+        assertTrue(food.contains("Рыба"));
+    }
+
+    @Test
+    public void testFamily() {
+        String family = feline.getFamily();
+        assertEquals("Кошачьи", family);
     }
 
     @Test
     public void testKittens() {
-        int expectedKittens = 8;
-        assertEquals(expectedKittens, feline.getKittens(8));
+        int kittens = feline.getKittens();
+        assertEquals(1, kittens);
     }
 
     @Test
-    public void testKittensCount() {
-        int expectedKittens = 1;
-        assertEquals(expectedKittens, feline.getKittens());
+    public void testKittensWithCount() {
+        int kittens = feline.getKittens(3);
+        assertEquals(3, kittens);
     }
-
-
 }
+

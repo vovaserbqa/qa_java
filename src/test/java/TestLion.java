@@ -1,36 +1,55 @@
 import com.example.Feline;
 import com.example.Lion;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mock;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @RunWith(Parameterized.class)
 public class TestLion {
 
+    @Mock
+    Lion lion;
+    @Mock
+    Feline felineMock;
     private final String sex;
-    private final boolean expected;
+    private final boolean hasManeExpected;
 
-    @Parameterized.Parameters
-    public static Object[][] param() {
-        return new Object[][]
-                {
-                        {"Самец", true},
-                        {"Самка", false}
-                };
+    @Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"Самец", true},
+                {"Самка", false}
+        });
     }
 
-    public TestLion(String sex, boolean expected) {
+    public TestLion(String sex, boolean hasManeExpected) {
         this.sex = sex;
-        this.expected = expected;
+        this.hasManeExpected = hasManeExpected;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        felineMock = mock(Feline.class);
+        lion = new Lion(sex, felineMock);
     }
 
     @Test
-    public void sexMultipleTest() throws Exception {
-        Feline feline = new Feline();
-        Lion lion = new Lion(feline, sex);
-        var actual = lion.doesHaveMane();
-
-        Assert.assertEquals(actual, expected);
+    public void testDoesHaveMane() {
+        boolean hasMane = lion.doesHaveMane();
+        assertEquals(hasManeExpected, hasMane);
     }
 }
+
+
+
+
+
