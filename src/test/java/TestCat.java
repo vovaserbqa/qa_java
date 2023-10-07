@@ -2,9 +2,10 @@ import com.example.Cat;
 import com.example.Feline;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TestCat {
 
     @Mock
@@ -32,10 +34,7 @@ public class TestCat {
 
     @Test
     public void testCatFood() throws Exception {
-        List<String> expectedFood = new ArrayList<>();
-        expectedFood.add("Животные");
-        expectedFood.add("Птицы");
-        expectedFood.add("Рыба");
+        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
         when(felineMock.eatMeat()).thenReturn(expectedFood);
 
         List<String> catFood = cat.getFood();

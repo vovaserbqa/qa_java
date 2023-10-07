@@ -1,7 +1,6 @@
 import com.example.Feline;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.List;
 
@@ -9,8 +8,8 @@ import static org.junit.Assert.*;
 
 public class TestFeline {
 
-    @Mock
-    Feline feline;
+
+    private Feline feline;
 
     @Before
     public void setUp() throws Exception {
