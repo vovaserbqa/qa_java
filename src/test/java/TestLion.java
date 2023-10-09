@@ -1,55 +1,55 @@
 import com.example.Feline;
 import com.example.Lion;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
-@RunWith(Parameterized.class)
+@RunWith(MockitoJUnitRunner.class)
 public class TestLion {
-
     @Mock
-    Lion lion;
-    @Mock
-    Feline felineMock;
-    private final String sex;
-    private final boolean hasManeExpected;
+    Feline feline;
 
-    @Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {"Самец", true},
-                {"Самка", false}
-        });
-    }
+    @Test
+    public void getFoodTest() throws Exception {
+        Lion lion = new Lion("Самец", feline);
+        var expected = List.of("Животные", "Птицы", "Рыба");
 
-    public TestLion(String sex, boolean hasManeExpected) {
-        this.sex = sex;
-        this.hasManeExpected = hasManeExpected;
-    }
+        Mockito.when(feline.getFood("Хищник")).thenReturn(expected);
 
-    @Before
-    public void setUp() throws Exception {
-        felineMock = mock(Feline.class);
-        lion = new Lion(sex, felineMock);
+        var actual = lion.getFood();
+
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testDoesHaveMane() {
-        boolean hasMane = lion.doesHaveMane();
-        assertEquals(hasManeExpected, hasMane);
+    public void getKitchenSingleTest() throws Exception {
+        Lion lion = new Lion("Самец", feline);
+        int expected = 1;
+
+        Mockito.when(feline.getKittens()).thenReturn(expected);
+
+        int actual = lion.getKittens();
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void maleErrorTest() {
+        Exception exception = Assert.assertThrows(Exception.class, () ->
+        {
+            new Lion("Оно", feline);
+        });
+
+        String expectedMessage = "Используйте допустимые значения пола животного - самец или самка";
+        String actualMessage = exception.getMessage();
+
+        Assert.assertEquals(expectedMessage, actualMessage);
     }
 }
-
-
-
 
 
